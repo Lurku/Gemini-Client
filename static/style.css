@@ -1,0 +1,173 @@
+/* Reset margins and paddings */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Ensure the body takes the full screen and has no border */
+body {
+  height: 100vh;
+  width: 100vw;
+  background: url("images/b.jpg");
+  background-position: center;
+  background-size: cover; /* Ensure the image covers the entire background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Chat container should stay centered with a specific width */
+.chat-container {
+  display: flex;
+  flex-direction: column;
+  height: 90vh;
+  width: 60vw; /* Adjust the width, it will always span 60% of the viewport width */
+  max-width: 800px; /* Ensure it doesn't get too wide on very large screens */
+  min-width: 300px; /* Ensure it doesn't get too narrow on small screens */
+  background-color: #121212;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(255, 255, 255, 0.2); /* Add some shadow for effect */
+  font-family: "Arial", sans-serif;
+  color: #f1f1f1;
+  overflow: hidden; /* Ensure the chat container doesn't overflow */
+  padding: 10px;
+}
+
+/* Ensure the chat container always takes up the full available width */
+.messages {
+  flex-grow: 1;
+  overflow-y: auto;
+  padding-right: 10px;
+  padding-left: 10px;
+  word-wrap: break-word;
+}
+
+/* User and AI message bubbles */
+.message {
+  max-width: 70%;
+  padding: 12px 18px;
+  border-radius: 20px;
+  font-size: 15px;
+  line-height: 1.4;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+  position: relative;
+  color: #f1f1f1;
+}
+
+/* Style for user's messages */
+.message.user {
+  align-self: flex-end;
+  background-color: #0b84fe;
+  color: white;
+  border-bottom-right-radius: 0;
+}
+
+/* Style for AI's messages */
+.message.ai {
+  align-self: flex-start;
+  background-color: #2f3136;
+  color: #e2e2e2;
+  border-bottom-left-radius: 0;
+}
+
+/* Add arrow-style triangle to user's messages */
+.message.user::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  right: -10px;
+  width: 0;
+  height: 0;
+  border-left: 10px solid #0b84fe;
+  border-top: 10px solid transparent;
+}
+
+/* Add arrow-style triangle to AI's messages */
+.message.ai::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: -10px;
+  width: 0;
+  height: 0;
+  border-right: 10px solid #2f3136;
+  border-top: 10px solid transparent;
+}
+
+/* Styling for message header (sender name and timestamp) */
+.message-header {
+  font-weight: bold;
+  font-size: 12px;
+  margin-bottom: 5px;
+  color: #b0b0b0;
+}
+
+/* The input form at the bottom */
+form {
+  display: flex;
+  padding: 10px;
+  border-top: 1px solid #333;
+  background-color: #1f1f1f;
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.3);
+}
+
+/* Text input styling */
+input[type="text"] {
+  flex-grow: 1;
+  padding: 12px;
+  border: 1px solid #333;
+  border-radius: 20px;
+  font-size: 16px;
+  outline: none;
+  background-color: #333;
+  color: #f1f1f1;
+  transition: all 0.3s ease;
+}
+
+/* Input focus effect */
+input[type="text"]:focus {
+  border-color: #0b84fe;
+  box-shadow: 0 0 5px rgba(11, 132, 254, 0.5);
+}
+
+/* Send button styling */
+button {
+  padding: 12px 20px;
+  margin-left: 10px;
+  background-color: #0b84fe;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #086bb7;
+}
+
+/* Scrollable messages area */
+.messages {
+  flex-grow: 1;
+  overflow-y: auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* Styling scrollbar for dark mode */
+.messages::-webkit-scrollbar {
+  width: 6px;
+}
+
+.messages::-webkit-scrollbar-thumb {
+  background-color: #0b84fe;
+  border-radius: 3px;
+}
+
+.messages::-webkit-scrollbar-track {
+  background-color: #181818;
+}

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gemini AI Chat</title>
+    <link rel="stylesheet" type="text/css" href="../static/style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+
+    <div class="chat-container">
+        <div class="messages" id="messages">
+            <!-- Messages will be appended here -->
+        </div>
+
+        <form id="chat-form">
+            <input type="text" id="user_input" placeholder="Type a message..." required />
+            <button type="submit">Send</button>
+        </form>
+    </div>
+
+    <script>
+        // Load conversation history and append to the chat
+        function loadConversationHistory() {
+            $.ajax({
+                url: '/history',
+                method: 'GET',
+                success: function(history) {
+                    history.forEach(function(item) {
+                        appendMessage('User', item.user, item.timestamp);
+                        appendMessage('AI', item.ai, item.timestamp);
+                    });
+                }
+            });
+        }
+
+        // Append a new message to the chat
+        function appendMessage(sender, message, timestamp = null) {
+            const messageContainer = document.createElement('div');
+            messageContainer.classList.add('message', sender.toLowerCase());
+
+            const messageHeader = document.createElement('div');
+            messageHeader.classList.add('message-header');
+            messageHeader.textContent = `${sender} • ${timestamp || new Date().toLocaleTimeString()}`;
+
+            const messageText = document.createElement('p');
+            messageText.textContent = message;
+
+            messageContainer.appendChild(messageHeader);
+            messageContainer.appendChild(messageText);
+            $('#messages').append(messageContainer);
+
+            // Scroll to the bottom of the chat
+            $('#messages').scrollTop($('#messages')[0].scrollHeight);
+        }
+
+        // Handle form submission
+        $('#chat-form').on('submit', function(event) {
+            event.preventDefault();
+
+            const userInput = $('#user_input').val();
+            const timestamp = new Date().toLocaleTimeString();
+            appendMessage('User', userInput, timestamp);
+
+            $.ajax({
+                url: '/generate',
+                method: 'POST',
+                data: { user_input: userInput },
+                success: function(response) {
+                    appendMessage('AI', response.ai, timestamp);
+                    $('#user_input').val(''); // Clear the input field
+                }
+            });
+        });
+
+        // Load conversation history when the page loads
+        $(document).ready(function() {
+            loadConversationHistory();
+        });
+    </script>
+
+</body>
+</html>
